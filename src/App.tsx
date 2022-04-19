@@ -1,48 +1,25 @@
 import { useEffect, useState } from "react";
-import { signIn, logOut, auth } from "./firebase";
+import { logOut, auth, emailAndPasswordSignIn, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
-
-interface User {
-  uid: string | null;
-  name: string | null;
-  email: string | null;
-  photoURL: string | null;
-}
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 function App() {
-  const [user, setUser] = useState<User>({
-    uid: "",
-    name: "",
-    email: "",
-    photoURL: "",
-  });
+  const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {
-        const providerData = user.providerData;
-
-        setUser({
-          uid: providerData[0].uid,
-          name: providerData[0].displayName,
-          email: providerData[0].email,
-          photoURL: providerData[0].photoURL,
-        });
+        setUser(user.email);
       } else {
-        setUser({
-          uid: "",
-          name: "",
-          email: "",
-          photoURL: "",
-        });
+        setUser(null);
       }
     });
   }, []);
 
   return (
     <>
-      <h1>Hi UNIPS</h1>
-      {user.uid ? <UserDetails userDetails={user} /> : <SignIn />}
+      <h1>Hi UniPS</h1>
+      {user ? <MainContent /> : <SignIn />}
     </>
   );
 }
@@ -50,10 +27,30 @@ function App() {
 export default App;
 
 const SignIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = (e: any) => {
+    e.preventDefault();
+    emailAndPasswordSignIn(email, password);
+  };
+
   return (
-    <>
-      <button onClick={signIn}>Login</button>
-    </>
+    <form onSubmit={login} className="form">
+      <input
+        type="email"
+        placeholder="Email"
+        onChange={e => setEmail(e.target.value)}
+        className="email"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={e => setPassword(e.target.value)}
+        className="password"
+      />
+      <button>Login</button>
+    </form>
   );
 };
 
@@ -67,14 +64,35 @@ const SignOut = () => {
   );
 };
 
-const UserDetails = ({ userDetails }: any) => {
-  const { name, email, photoURL } = userDetails;
+const MainContent = () => {
+  const addToDoc = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Alan",
+        middle: "Mathison",
+        last: "Turing",
+        born: 1912,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const readData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach(doc => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
+  };
+
   return (
-    <div className="user-details">
-      <img src={photoURL} alt={name} />
-      <p className="name">Welcome {name} 👋</p>
-      <p className="email">{email}</p>
+    <>
+      <div>
+        <button onClick={addToDoc}>Add to doc</button>
+        <button onClick={readData}>Read data</button>
+      </div>
       <SignOut />
-    </div>
+    </>
   );
 };

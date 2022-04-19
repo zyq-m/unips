@@ -6,25 +6,31 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDBgkBxezPa43tZqVuHc6Tg43M00XykCUQ",
-  authDomain: "unips-3f614.firebaseapp.com",
-  projectId: "unips-3f614",
-  storageBucket: "unips-3f614.appspot.com",
-  messagingSenderId: "322283847829",
-  appId: "1:322283847829:web:6971dbc3a9e1eba3665b9c",
-  measurementId: "G-94BN20M44D",
+  apiKey: "AIzaSyDk3-KkhpTWtm3yfrJxkIXyq9roFWX7BXU",
+  authDomain: "unips-2530c.firebaseapp.com",
+  projectId: "unips-2530c",
+  storageBucket: "unips-2530c.appspot.com",
+  messagingSenderId: "306171880262",
+  appId: "1:306171880262:web:794be59489d68e91fdbb47",
+  measurementId: "G-XVQRFFHE1S",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// Initialize Firestore
+export const db = getFirestore(app);
 
 // sign in using Google
 const provider = new GoogleAuthProvider();
@@ -59,3 +65,14 @@ export const logOut = () =>
       // An error happened.
       console.log(error);
     });
+
+export const emailAndPasswordSignIn = (email: string, password: string) => {
+  signInWithEmailAndPassword(auth, email, password).catch(error => {
+    const errorInfo = {
+      errorCode: error.code,
+      errorMessage: error.message,
+    };
+
+    console.log(errorInfo);
+  });
+};

@@ -16,33 +16,23 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
-.user-details {
+.form {
+  display: grid;
+  gap: 1rem;
   margin-bottom: 1.5rem;
-  padding: 1rem 2rem;
-  text-align: center;
+  padding: 2rem;
   border-radius: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.279);
   background-color: white;
 }
-.user-details img {
-  margin-inline: auto;
-  margin-bottom: 1rem;
-  border-radius: 999px;
-}
-.user-details .name {
-  font-weight: 600;
-  font-size: 18px;
-  margin-bottom: 0.5rem;
-}
-.user-details .email {
-  margin-bottom: 1.5rem;
-  color: rgba(0, 0, 0, 0.575);
+
+.email,
+.password {
+  padding: 0.5rem 1rem;
 }
 
 .logout {
-  padding: 0;
-  color: rgb(229, 134, 134);
-  background-color: unset;
+  background-color: rgb(242, 53, 53);
 }
 
 button {
@@ -52,6 +42,5 @@ button {
 
   padding: 0.5rem 1rem;
   color: aliceblue;
-  border-radius: 0.2rem;
   background-color: rgb(132, 95, 160);
 }
