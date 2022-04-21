@@ -32,15 +32,17 @@ h1 {
 }
 
 .logout {
+  all: unset;
+
+  padding: 0.3rem 0.5rem;
+  color: aliceblue;
   background-color: rgb(242, 53, 53);
 }
 
-button {
-  cursor: pointer;
-  background: unset;
-  border: unset;
+.btn-primary {
+  all: unset;
 
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.5rem;
   color: aliceblue;
   background-color: rgb(132, 95, 160);
 }
