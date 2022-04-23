@@ -1,10 +1,10 @@
 # UniPS
 
-This project is still in development
+UniPS is a courier system. This project is still in development...
 
-## User Requirement
+## System Requirement
 
-### Data Should Be In Record Items
+### Data Should Be Recorded
 
 - Tracking No
 - Receive date
